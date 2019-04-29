@@ -1,0 +1,57 @@
+<!--% include header %-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Add User</title>
+    <% include head.ejs %>
+</head>
+
+<body>
+<% var title = "addUser" %>
+<% include header.ejs %>
+<main>
+
+
+
+    <form name="user" method="POST" action="/addUser">
+        <h1>Create User</h1>
+        <div class="group">
+            <label for="name">Full User Name</label>
+            <input type="text" id="name" name="name" required pattern="^[\w\s0-9._]+$"
+                   title="Only word characters, whitespaces, points, underscore and numbers are allowed">
+
+
+            <span class="highlight"></span>
+            <span class="bar"></span>
+        </div>
+
+        <div class="group">
+            <label for="username">Username</label>
+
+            <input type="text" id="username" name="username" required pattern="^[\w0-9._]+$"
+                   title="Only word characters, points, underscore and numbers are allowed">
+
+            <span class="highlight"></span>
+            <span class="bar"></span>
+        </div>
+
+        <div class="group">
+            <label for="password">New User Password</label>
+
+            <input type="password" id="password" name="password" required>
+
+            <span class="highlight"></span>
+            <span class="bar"></span>
+        </div>
+
+        <input type="submit" value="Save">
+
+    </form>
+
+
+</main>
+
+
+</body>
+<!--% include footer %-->
