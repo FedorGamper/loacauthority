@@ -15,4 +15,5 @@ module.exports = {
     '!src/**/*.d.ts',
     '!src/sizeReport.ts'
   ],
+
 };

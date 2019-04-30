@@ -13,7 +13,8 @@ class Permission {
             "resourceName": loacName,
             "tokens": [token],
             "certificates": []
-        }
+        };
+        this.render = this.render();//todo make beautiful fix for mongo
     }
     toString(){
         return JSON.stringify(this.loac.tokens);

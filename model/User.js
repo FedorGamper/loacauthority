@@ -31,11 +31,16 @@ class User {
 
     render() {
         let usertype = this.isAdmin?"Administrator":"User";
+
         let tokens = "";
-        this.permissions.forEach(p => tokens = tokens +p.render());
+        this.permissions.forEach(p => tokens = tokens + p.render);
+        if(tokens === "") tokens = "<h3>No tokens found for this user</h3>";
+
         let cert = "";
-        this.certificate.forEach(c => cert = cert + this.renderCert());
-        return "<div class='user'><div class='userName'> "+usertype +" "+ this.username +
+        this.certificate.forEach(c => cert = cert + `${this.renderCert()}`);
+        if(cert === "") cert = "<h3>No certificates found for this user</h3>";
+
+        return "<div class='user'><div class='userName'> "+usertype +" "+ `${this.username}` +
             '</div><button class="collapsible"> Tokens: </button><div class="content">' + tokens +"</div> <button class='collapsible'> certificate: </button><div class='content'>" + cert +"</div></div>";
     }
 }

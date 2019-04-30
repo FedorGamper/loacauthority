@@ -7,7 +7,7 @@ class Resource {
         this.imageUrl = imageUrl;
 
     }
-    createConfigFile(){
+    get createConfigFile(){
         let json = {
             uuid: {
                 service: "4c6f6163-5072-6f74-6f63-6f6c53657230",
@@ -27,3 +27,4 @@ class Resource {
 
     }
 }
+module.exports = Resource;
