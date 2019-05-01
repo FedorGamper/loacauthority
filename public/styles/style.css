@@ -1,10 +1,11 @@
 body{
     font-family: Roboto, sans-serif;
     margin: 0;
+    background-color: #f9f9f9;
 }
 
 header {
-    background-color: rgb(103, 58, 183);
+    background-color: #4781FE;
 
 }
 .title{
@@ -14,9 +15,9 @@ header {
     padding-left: 40px;
 }
 .title h1{
-    color: rgb(245, 245, 245);
+    color: #252525;
     font-size: 34px;
-    font-weight: 400;
+    font-weight: bold;
 
 }
 .headerRow{
@@ -24,7 +25,7 @@ header {
     height: 50px;
 }
 nav{
-    background-color: rgb(81, 45, 168);
+    background-color: #3A53FF ;
     box-sizing: border-box;
     height: 50px;
     padding-left: 16px;
@@ -39,16 +40,15 @@ nav{
 }
 nav a{
     text-decoration: none;
-    color: rgb(214, 214, 214);
+    color: white;
 }
 .link.active a{
     color:white;
-    font-weight: 300;
 }
 .link.active .underline{
     color: white;
-    border-bottom: 3px solid white;
-    height: 47px;
+    border-bottom: 5px solid white;
+    height: 45px;
 }
 .underline{
     padding-left: 10px;
@@ -56,7 +56,7 @@ nav a{
 }
 
 main{
-
+    background-color: white;
     box-shadow: rgba(0, 0, 0, 0.14) 0px 4px 5px 0px, rgba(0, 0, 0, 0.12) 0px 1px 10px 0px, rgba(0, 0, 0, 0.2) 0px 2px 4px -1px;
     box-sizing: border-box;
     color: rgb(66, 66, 66);
@@ -67,7 +67,7 @@ main{
     width: 60%;
 }
 .user{
-    background-color: rgb(81, 45, 168);
+    background-color: #3A53FF ;
     box-shadow: rgba(0, 0, 0, 0.14) 0px 4px 5px 0px, rgba(0, 0, 0, 0.12) 0px 1px 10px 0px, rgba(0, 0, 0, 0.2) 0px 2px 4px -1px;
     margin-bottom: 5px;
     color: white;
@@ -76,7 +76,7 @@ main{
     padding: 18px;
 }
 .collapsible {
-    background-color: #777;
+    background-color: #737373;
     color: white;
     cursor: pointer;
     padding: 18px;
@@ -89,7 +89,7 @@ main{
 }
 
 .collapsible:hover{
-    background-color: #555;
+    background-color: #4781FE;
 }
 
 .collapsible:after {
@@ -119,9 +119,16 @@ main{
     display: table;
 }
 
+.content h3{
+    padding-left: 18px;
+}
+
 .card{
+    position: relative;
     float: left;
-    width: 250px;
+    width: 30%;
+    max-width: 250px;
+    min-width: 190px;
     margin: 18px 0 18px 18px;
     flex-direction: column;
     border-radius: 4px;
@@ -132,6 +139,14 @@ main{
 }
 .card:hover{
     background-color: whitesmoke;
+}
+.card img{
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    height: 61px;
+    with: 44px;
+
 }
 .img{
     background-position: 50% 50%;

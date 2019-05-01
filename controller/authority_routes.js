@@ -1,13 +1,10 @@
 const router = require("express").Router();
-//const db = require("../model/DB");
 const bcrypt = require("bcrypt");
 const User = require("../model/User");
 const Permission = require("../model/Permission");
-//const loac = require("loacprotocol").init("p192");
 
 
 router.get("/", (req, res) => {
-    //res.json(db.getUsers());
     mongo.allUsers()
         .then(users => {
                 for (i in users) {
@@ -18,9 +15,6 @@ router.get("/", (req, res) => {
                 });
             }
         );
-    //res.render('index', {
-    //    users: db.getUsers()
-    //});
 });
 
 
@@ -57,11 +51,6 @@ router.post("/addUser", (req, res) => {
                 })
                 .catch(err => console.log(err));
 
-            /*if (db.addUser(user)) {
-                res.redirect("/");
-            } else {
-                console.log("user already exists")
-            }*/
         } else {
             console.log("not all fields filled out");
             res.redirect("/addUser");
@@ -107,19 +96,6 @@ router.post("/addPermission", (req, res) => {
             console.log(err);
             res.redirect("/addPermission");
         });
-/*
-    let resource = db.findResourceByName(req.body.resource);
-    let user = db.findUserByName(req.body.username.toLowerCase());
-
-
-    //mongo.addPermission(user.username, permission)
-        .then(() => {
-            res.redirect("/")
-        }).catch(err => {
-        console.log(err)
-        res.redirect("/addPermission")
-    });*/
-
 });
 
 module.exports = router;

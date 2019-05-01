@@ -4,7 +4,7 @@ describe("DB test", ()=>{
 
     const User = require('../model/User');
     const Permission = require('../model/Permission');
-    const DB = require("../model/DB");
+    const DB = require("../model/mongodb");
     let testuser = new User(false,"testuser","Test User", "$2b$10$uQu5POudgz/PilxYAldzLuUlUmhBOxYw8nxhIy/eGWNfmJnFo6O6y"); //pw = password
     DB.addUser(testuser);
 
