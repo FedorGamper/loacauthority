@@ -47,7 +47,7 @@ class User {
         this.certificate.forEach(c => cert = cert + this.renderCert(c));
         if(cert === "") cert = "<h3>No certificates found for this user</h3>";
 
-        return "<div class='user'><div class='userName'> "+usertype +" "+ this.username +
+        return "<div class='user'><div class='userName'> "+usertype +" "+ this.name +
             '</div><button class="collapsible"> Tokens: </button><div class="content">' + tokens +"</div> <button class='collapsible'> Certificates: </button><div class='content'>" + cert +"</div></div>";
     }
 }

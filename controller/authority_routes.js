@@ -7,20 +7,24 @@ const Permission = require("../model/Permission");
 router.get("/", (req, res) => {
     mongo.allUsers()
         .then(users => {
-                for (i in users) {
-
-                }
-                res.render('index', {
+          res.render('index', {
                     users: users
                 });
             }
-        );
+        ).catch(err=>console.log(err));
 });
 
 
-router.get("/addUser", (req, res) => {
-    res.render("addUser");
+router.get("/manageUser", (req, res) => {
+    mongo.allUsers()
+        .then((users)=>{
+            res.render('manageUser', {
+                users: users
+            });
+        }).catch(err=>console.log(err))
+
 });
+
 
 router.post("/addUser", (req, res) => {
 
@@ -30,7 +34,7 @@ router.post("/addUser", (req, res) => {
             username = undefined;
         }
 
-        let name = encodeURI(req.body.name);
+        let name = req.body.name;
         if (!/^([\w\s0-9._]+)$/.test(name)) {
             console.log("name not valid:" + name);
             name = undefined;
@@ -53,11 +57,26 @@ router.post("/addUser", (req, res) => {
 
         } else {
             console.log("not all fields filled out");
-            res.redirect("/addUser");
+            res.redirect("/manageUser");
         }
 
     }
 );
+
+router.post("/deleteUser", (req, res)=>{
+    if(req.body.username !== undefined){
+        mongo.deleteUser(req.body.username)
+            .then(()=>res.redirect("/"))
+            .catch(err=>{
+                console.log(err);
+                res.redirect("/manageUser")
+            });
+    }
+    else{
+        console.log("no username was given");
+        res.redirect("/manageUser");
+    }
+});
 
 router.get("/addPermission", (req, res) => {
     Promise.all([mongo.allResources(), mongo.allUsers()])

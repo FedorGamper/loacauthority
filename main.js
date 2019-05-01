@@ -104,6 +104,7 @@ const isAdmin = function (req, res, next) {
     }
 };
 
+app.get("/api/", (req, res)=>res.json({"status":"online"}));
 app.use("/api/", auth, require("./controller/api_routes"));
 app.use("/", auth, isAdmin, require("./controller/authority_routes"));
 

@@ -8,7 +8,7 @@
 </head>
 
 <body>
-<% var title = "addUser" %>
+<% var title = "manageUser" %>
 <% include header.ejs %>
 <main>
 
@@ -45,8 +45,22 @@
             <span class="bar"></span>
         </div>
 
-        <input type="submit" value="Save">
+        <input type="submit" class="save" value="Save">
 
+    </form>
+
+    <form name="deleteUser" method="POST" action="/deleteUser">
+        <h1>Delete User</h1>
+        <div class="group">
+            <label for="username">Username</label>
+            <div class="select">
+                <select id="username" name="username">
+                    <% users.forEach(user => { %>
+                        <%- "<option value" + user.username + ">" + user.username + "</option>" %>
+                    <% }); %>
+                </select></div>
+        </div>
+        <input type="submit" class="delete" value="Delete">
     </form>
 
 
