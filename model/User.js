@@ -5,7 +5,7 @@ class User {
     constructor(isAdmin, username, name, password, permissions, certificate) {
 
         this.isAdmin = isAdmin;
-        this.username = username.toLowerCase();
+        this.username = username;
         this.name = name;
         this.password = password;
 
@@ -25,6 +25,18 @@ class User {
         return JSON.stringify(this);
     }
 
+    renderPerm(p){
+        return "<div class=\"card\">\n" +
+            "        <div class=\"img\" style=\"background-image: url("+p.imageUrl+");\"></div>\n" +
+            "        <div class=\"CardTitle\"><h1>"+p.name+"</h1><h2>"+p.description+"</h2></div>\n" +
+            "\n" +
+            "        <div class=\"CardDescription\">Access: "+p.buttons[0].text+" <br>Validity: "+
+            new Date(p.loac.tokens[0].validityStart * 1000).toLocaleDateString()
+            +" - "+
+            new Date(p.loac.tokens[0].validityEnd * 1000).toLocaleDateString()
+            +"</div>\n" +
+            "    </div>"
+    }
 
     renderCert(c){
         var data = msgpack.decode(new Buffer(c, "hex"));
@@ -40,7 +52,7 @@ class User {
         let usertype = this.isAdmin?"Administrator":"User";
 
         let tokens = "";
-        this.permissions.forEach(p => tokens = tokens + p.render);
+        this.permissions.forEach(p => tokens = tokens + this.renderPerm(p));
         if(tokens === "") tokens = "<h3>No tokens found for this user</h3>";
 
         let cert = "";

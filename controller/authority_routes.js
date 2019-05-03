@@ -28,7 +28,7 @@ router.get("/manageUser", (req, res) => {
 
 router.post("/addUser", (req, res) => {
 
-        let username = req.body.username.toLowerCase();
+        let username = req.body.username;
         if (!/^([\w0-9._]+)$/.test(username)) {
             console.log("username not valid:" + username);
             username = undefined;
@@ -40,12 +40,12 @@ router.post("/addUser", (req, res) => {
             name = undefined;
         }
 
-        let password = encodeURI(req.body.password);
+        let password = req.body.password;
 
         if (username !== undefined && name !== undefined && password !== undefined) {
-
             //hash the password with 10 salt rounds
-            password = bcrypt.hashSync(password, 10);
+            let salt = bcrypt.genSaltSync(10);
+            password = bcrypt.hashSync(password, salt);
 
             let user = new User(0, username, name, password, [], []);
 
@@ -57,7 +57,8 @@ router.post("/addUser", (req, res) => {
 
         } else {
             console.log("not all fields filled out");
-            res.redirect("/manageUser");
+            res.status(400);
+            res.send("not all fields filled out");
         }
 
     }
@@ -66,15 +67,19 @@ router.post("/addUser", (req, res) => {
 router.post("/deleteUser", (req, res)=>{
     if(req.body.username !== undefined){
         mongo.deleteUser(req.body.username)
-            .then(()=>res.redirect("/"))
+            .then(()=>{
+                res.redirect("/");
+            })
             .catch(err=>{
-                console.log(err);
-                res.redirect("/manageUser")
+                console.log("err " +err);
+                res.status(400);
+                res.send("user not found\n\n" +err)
             });
     }
     else{
         console.log("no username was given");
-        res.redirect("/manageUser");
+        res.status(400);
+        res.send("no username was given\n\n" +err)
     }
 });
 
@@ -113,7 +118,8 @@ router.post("/addPermission", (req, res) => {
         })
         .catch(err => {
             console.log(err);
-            res.redirect("/addPermission");
+            res.status(400);
+            res.send("DB error \n\n"+err);
         });
 });
 

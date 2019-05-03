@@ -5,7 +5,7 @@ body{
 }
 
 header {
-    background-color: #4781FE;
+    background-color: #6288FF;
 
 }
 .title{
@@ -15,9 +15,9 @@ header {
     padding-left: 40px;
 }
 .title h1{
-    color: #252525;
+    color: white;
     font-size: 34px;
-    font-weight: bold;
+    font-weight: 500;
 
 }
 .headerRow{
@@ -25,7 +25,7 @@ header {
     height: 50px;
 }
 nav{
-    background-color: #3A53FF ;
+    background-color: #4966BF ;
     box-sizing: border-box;
     height: 50px;
     padding-left: 16px;
@@ -67,7 +67,7 @@ main{
     width: 60%;
 }
 .user{
-    background-color: #3A53FF ;
+    background-color: #4966BF ;
     box-shadow: rgba(0, 0, 0, 0.14) 0px 4px 5px 0px, rgba(0, 0, 0, 0.12) 0px 1px 10px 0px, rgba(0, 0, 0, 0.2) 0px 2px 4px -1px;
     margin-bottom: 5px;
     color: white;
@@ -76,8 +76,8 @@ main{
     padding: 18px;
 }
 .collapsible {
-    background-color: #737373;
-    color: white;
+    background-color: #f9f9f9;
+    color: black;
     cursor: pointer;
     padding: 18px;
     width: 100%;
@@ -89,13 +89,13 @@ main{
 }
 
 .collapsible:hover{
-    background-color: #4781FE;
+    background-color: #6288FF;
 }
 
 .collapsible:after {
     font-family: "Helvetica", sans-serif;
     content: '\25BC '; /*unicode for down sign*/
-    color: white;
+color: white;
     font-weight: bold;
     float: right;
     margin-bottom: 5px;
@@ -103,7 +103,7 @@ main{
 
 
 .collapsible.active:after {
-    content: "\25B2"; /*unicode for up sign*/
+    content: "\25B2"; /unicode for up sign/
 }
 
 .content {
@@ -227,11 +227,15 @@ input[type=submit]{
     height: 36px;
     border-radius: 2px;
     font-weight: bold;
-    /*color: white;*/
+
 
 }
 .save {
-    background-color: /*rgb(81, 45, 168);*/ #b4e1b4
+    background-color: #b4e1b4
+}
+p {
+    font-size: small;
+    color: darkred;
 }
 .delete{
     background-color: #e1b4b4;

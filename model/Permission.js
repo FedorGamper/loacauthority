@@ -14,11 +14,9 @@ class Permission {
             "tokens": [token],
             "certificates": []
         };
-        this.render = this.render();//todo make beautiful fix for mongo
+        //this.render = this.render();//todo make beautiful fix for mongo
     }
-    toString(){
-        return JSON.stringify(this.loac.tokens);
-    }
+
     render(){
         return "<div class=\"card\">\n" +
             "        <div class=\"img\" style=\"background-image: url("+this.imageUrl+");\"></div>\n" +

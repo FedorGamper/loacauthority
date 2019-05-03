@@ -1,12 +1,8 @@
 const router = require("express").Router();
-//const db = require("../model/DB");
-//const subject = new loac.Subject();// todo remove
-
 
 router.post("/login", (req, res)=>{
     let request = req.body;
-    //request = subject.generateOnboardingRequest(req.record.username); //todo remove
-    request.username = request.username.toLowerCase();
+    let username = req.record.username;
     try{
         let cert = ia.handleOnboaradingRequest(request, username);
         mongo.addCert(username, cert)

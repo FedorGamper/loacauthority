@@ -2,10 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const bcrypt = require("bcrypt");
 const logger = require("morgan");
-const redirectToHTTPS = require('express-http-to-https').redirectToHTTPS;
 const helmet = require("helmet");
-
-//const db = require("./model/DB");
 
 const secret = require("./secret.json");
 
@@ -51,6 +48,7 @@ app.use(logger('dev'));
 app.use(helmet());
 //app.use(redirectToHTTPS([/localhost:(\d{4})/,/0.0.0.0:(\d{4})/ ],[],301));
 app.use(express.static(__dirname + '/public'));
+
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -116,7 +114,9 @@ app.use((err, req, res, next) => {
     res.status(500).send('Something broke!\n' + err.stack)
 });
 
-
 const server = app.listen(PORT, '0.0.0.0', () => {
     console.log(`Example app listening at http://${server.address().address}:${server.address().port}`)
 });
+
+
+module.exports = server;

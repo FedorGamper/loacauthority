@@ -9,7 +9,8 @@ const secret = require("../secret.json");
             resouces: Resource Records,
             users: User Records
  */
-const url = "mongodb+srv://" + secret.db.username + ":" + secret.db.pw + "@loacprotocol-kf4bj.gcp.mongodb.net/loac?retryWrites=true/";
+const dbname= "loac";
+const url = "mongodb+srv://" + secret.db.username + ":" + secret.db.pw + "@loacprotocol-kf4bj.gcp.mongodb.net/"+dbname+"?retryWrites=true/";
 
 mongoose.connect(url, {useNewUrlParser: true});
 
@@ -104,10 +105,13 @@ class mongo {
      * @returns {Promise<user>} that was deleted out of the db
      */
     static async deleteUser(username){
-        username = sanitize(username)
+        username = sanitize(username);
         return UserModel.deleteOne({username:username},(err, instance)=>{
             if(err){
                 throw err
+            }
+            if(instance.n === 0){
+                throw "no user was deleted"
             }
             return instance;
         })

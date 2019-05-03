@@ -1,3 +1,4 @@
+const secret = require("../secret");
 class Resource {
     constructor(name, loacName, descr, buttons, imageUrl){
         this.name = name;
@@ -19,8 +20,8 @@ class Resource {
             suite: "p192",
             derivationThreshold:10,
             trustStore:{
-                pa:[pa.pk],
-                ia:[ia.pk]
+                pa:[secret.pa.pk],
+                ia:[secret.ia.pk]
             }
         };
         return json;
