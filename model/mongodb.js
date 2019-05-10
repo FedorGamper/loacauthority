@@ -54,6 +54,7 @@ const UserModel = mongoose.model("users", UserSchema);
 
 class mongo {
 
+
     /**
      * Searches the db for the user with the specific username
      * @param {string} username
@@ -107,11 +108,8 @@ class mongo {
     static async deleteUser(username){
         username = sanitize(username);
         return UserModel.deleteOne({username:username},(err, instance)=>{
-            if(err){
+            if(err) {
                 throw err
-            }
-            if(instance.n === 0){
-                throw "no user was deleted"
             }
             return instance;
         })

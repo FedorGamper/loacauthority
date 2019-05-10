@@ -1,14 +1,14 @@
 const server = require("../main.js");
 const request = require("supertest").agent(server.listen());
 const assert = require('assert');
-const User = require("../model/User");
-const Resource = require("../model/Resource");
+//const User = require("../model/User");
+//const Resource = require("../model/Resource");
 const Permission = require("../model/Permission");
 const secret = require("../secret");
 const async = require('async');
 
 const subject = new loac.Subject();
-
+const timeoutBetweenRequests = 2000;
 
 describe("Api Test", (done) => {
 
@@ -18,21 +18,33 @@ describe("Api Test", (done) => {
             "username": "testUser",
             "password": "password"
         };
-        request
-            .post("/addUser")
-            .auth("admin", "password")
-            .send(body)
-            .expect(302, done);
+        try{
+            request
+                .post("/addUser")
+                .auth("admin", "password")
+                .send(body)
+                .expect(302, done);
+        }catch (e) {
+            console.log(e)
+        }
+
 
 
     });
+    beforeEach(done =>{
+        setTimeout(()=>done(),timeoutBetweenRequests);//wait before next test
+    });
 
     after((done) => {
-        request
-            .post("/deleteUser")
-            .auth("admin", "password")
-            .send({"username": "testUser"})
-            .expect(302, done)
+        setTimeout(()=>{
+            request
+                .post("/deleteUser")
+                .auth("admin", "password")
+                .send({"username": "testUser"})
+                .expect(302, done)
+        },timeoutBetweenRequests);//wait
+
+
 
     });
 
@@ -92,14 +104,18 @@ describe("Api Test", (done) => {
            let permission = new Permission("Test Resource", "testresource", "this is just for the test",
              "https://www.section508.gov/sites/all/themes/508retheme/images/icons/test-white.png", "test","test", token);
            mongo.addPermission("testUser", permission);
-           request
-               .get("/api/permissions")
-               .auth("testUser", "password")
-               .expect('Content-Type', /json/)
-               .expect((res)=>{
-                   assert.equal(res.body.length, 1);
-               })
-               .expect(200, done)
+           setTimeout(()=>
+               request
+                   .get("/api/permissions")
+                   .auth("testUser", "password")
+                   .expect('Content-Type', /json/)
+                   .expect((res)=>{
+                       console.log(res.body);
+                       assert.equal(res.body.length, 1);
+                   })
+                   .expect(200, done),
+               timeoutBetweenRequests)
+
        });
        it("Permission correct result types",(done)=>{
            let token = new loac.PermissionAuthority(secret.pa.sk).issueToken("testUser", true, "testResource2", new Date()-1000, new Date()+1000);
@@ -146,7 +162,8 @@ describe("Api Test", (done) => {
     describe("Post /deleteUser", ()=>{
         it("delete an user" , (done)=>{
             async.series([
-                (done)=>request
+                (done)=>{
+                    request
                     .post("/addUser")
                     .auth("admin", "password")
                     .send({
@@ -154,16 +171,20 @@ describe("Api Test", (done) => {
                         "username": "testTwo",
                         "password": "password"
                     })
-                    .expect(302, done),
-                (done)=>request
+                    .expect(302, done)},
+                (done)=>setTimeout(done, timeoutBetweenRequests),
+                (done)=>{
+                request
                     .post("/deleteUser")
                     .auth("admin", "password")
                     .send({"username": "testTwo"})
-                    .expect(302, done),
-                (done)=>request
+                    .expect(302, done)},
+
+                (done)=>{request
                     .get("/api/permissions")
                     .auth("testTwo", "password")
-                    .expect(401, done)
+                    .expect(401, done)}
+
 
         ], done);
         });

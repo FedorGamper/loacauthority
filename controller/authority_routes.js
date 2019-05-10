@@ -67,19 +67,22 @@ router.post("/addUser", (req, res) => {
 router.post("/deleteUser", (req, res)=>{
     if(req.body.username !== undefined){
         mongo.deleteUser(req.body.username)
-            .then(()=>{
-                res.redirect("/");
+            .then((result)=>{
+                console.log(result);
+                if(result.n === 0){ res.status(400); res.send("no user was deleted"); res.end()}
+                else{res.redirect("/");}
             })
             .catch(err=>{
-                console.log("err " +err);
+                console.log("user not found\n\n" +err);
                 res.status(400);
-                res.send("user not found\n\n" +err)
+                res.send("user not found\n\n" +err);
+                res.end();
             });
     }
     else{
         console.log("no username was given");
         res.status(400);
-        res.send("no username was given\n\n" +err)
+        res.send("no username was given")
     }
 });
 
@@ -106,7 +109,7 @@ router.post("/addPermission", (req, res) => {
 
     let fromDate = loac.utils.dateToUnixTime(new Date(req.body.from));
     let untilDate = loac.utils.dateToUnixTime(new Date(req.body.until));
-    let delegable = req.body.delegable === true;
+    let delegable = req.body.delegable == 1;
 
 
     Promise.all([mongo.findUser(req.body.username), mongo.findResource(req.body.resource)])

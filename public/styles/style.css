@@ -95,7 +95,7 @@ main{
 .collapsible:after {
     font-family: "Helvetica", sans-serif;
     content: '\25BC '; /*unicode for down sign*/
-color: white;
+color: black;
     font-weight: bold;
     float: right;
     margin-bottom: 5px;
