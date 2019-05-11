@@ -31,7 +31,7 @@ class User {
             "        <div class=\"img\" style=\"background-image: url("+p.imageUrl+");\"></div>\n" +
             "        <div class=\"CardTitle\"><h1>"+p.name+"</h1><h2>"+p.description+"   "+isdelagatable+"</h2></div>\n" +
             "\n" +
-            "        <div class=\"CardDescription\">Access: "+p.buttons[0].text+" <br>Validity: "+
+            "        <div class=\"CardDescription\">Validity: "+
             new Date(p.loac.tokens[0].validityStart * 1000).toLocaleDateString()
             +" - "+
             new Date(p.loac.tokens[0].validityEnd * 1000).toLocaleDateString()

@@ -1,20 +1,16 @@
 class Permission {
-    constructor(name, loacName, desc, imageURL, buttonText, buttonCommand, token) {
+    constructor(name, loacName, desc, imageURL, buttons, token) {
 
         this.name = name;
         this.description = desc;
         this.imageUrl = imageURL;
         this.delegatedBy = null;
-        this.buttons = [{
-            "text": buttonText,
-            "command": buttonCommand
-        }];
+        this.buttons = buttons;
         this.loac = {
             "resourceName": loacName,
             "tokens": [token],
             "certificates": []
         };
-        //this.render = this.render();//todo make beautiful fix for mongo
     }
 
     render(){

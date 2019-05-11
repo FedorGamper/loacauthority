@@ -101,12 +101,6 @@ router.get("/addPermission", (req, res) => {
 
 router.post("/addPermission", (req, res) => {
 
-    let access = req.body.access;
-    if (!/^([\w\s]{1,25})$/.test(access)) {
-        console.log("access not valid: " + access);
-        access = "no valid access";
-    }
-
     let fromDate = loac.utils.dateToUnixTime(new Date(req.body.from));
     let untilDate = loac.utils.dateToUnixTime(new Date(req.body.until));
     let delegable = req.body.delegable == 1;
@@ -115,7 +109,7 @@ router.post("/addPermission", (req, res) => {
     Promise.all([mongo.findUser(req.body.username), mongo.findResource(req.body.resource)])
         .then(([user, resource]) => {
             let token = pa.issueToken(user.username, delegable, resource.resourceName, fromDate, untilDate);
-            let permission = new Permission(resource.name, resource.resourceName, resource.description, resource.imageUrl, access, access, token);
+            let permission = new Permission(resource.name, resource.resourceName, resource.description, resource.imageUrl, resource.buttons , token);
             mongo.addPermission(user.username, permission);
             res.redirect("/");
         })
