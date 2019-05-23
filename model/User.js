@@ -26,10 +26,30 @@ class User {
     }
 
     renderPerm(p){
-        let isdelagatable = p.loac.tokens[0].delegable?"delegatable":"";
+
+        // check the variables received from the db
+        var img = p.imageUrl;
+        if (!/^data:image\/((jpeg)|(png));base64,[0-9a-zA-Z+\/=]*$/.test(img)) {
+            img = "img/imgNotFound.png";
+            console.log("wrong IMG given from db")
+        }
+
+        var name = p.name;
+        if(!/^[a-z ,.'-]+$/i.test(name)){
+            name = "Object";
+            console.log("wrong IMG given")
+        }
+        var desc = p.description;
+        if(!/^[a-z ,.'-]+$/i.test(desc)){
+            desc = "no description";
+            console.log("wrong IMG given from db")
+        }
+
+        var isdelagatable = p.loac.tokens[0].delegable?"delegatable":"";
+
         return "<div class=\"card\">\n" +
-            "        <div class=\"img\" style=\"background-image: url("+p.imageUrl+");\"></div>\n" +
-            "        <div class=\"CardTitle\"><h1>"+p.name+"</h1><h2>"+p.description+"   "+isdelagatable+"</h2></div>\n" +
+            "        <div class=\"img\" style=\"background-image: url("+img+");\"></div>\n" +
+            "        <div class=\"CardTitle\"><h1>"+name+"</h1><h2>"+desc+"   "+isdelagatable+"</h2></div>\n" +
             "\n" +
             "        <div class=\"CardDescription\">Validity: "+
             new Date(p.loac.tokens[0].validityStart * 1000).toLocaleDateString()
@@ -41,9 +61,20 @@ class User {
 
     renderCert(c){
         var data = msgpack.decode(new Buffer(c, "hex"));
+
+        var username = data.s;
+        if (!/^([\w0-9._]+)$/.test(username)) {
+            username = "";
+        }
+
+        var name = this.name;
+        if(!/^[a-z ,.'-]+$/i.test(name)){
+            name = ""
+        }
+
         return "<div class=\"card\" >\n" +
             "<img src='img/certificateSign.png'>"+
-            "<div class='CardTitle'><h1>"+data.s+"</h1><h2>"+this.name+"</h2></div>\n" +
+            "<div class='CardTitle'><h1>"+username+"</h1><h2>"+name+"</h2></div>\n" +
             "<div class='CardDescription'>Validity: "+new Date(data.t*1000).toLocaleDateString()
             +" - "+new Date(data.e*1000).toLocaleDateString()+"</div>\n" +
             "</div>"
