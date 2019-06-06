@@ -38,16 +38,16 @@ global.pa = new loac.PermissionAuthority(secret.pa.sk);
         .catch(err=>console.log(err));
 })();*/
 
-const PORT = 8080;
+const PORT = 8080; //port the service uses (for gcloud app engine the port is normally 8080)
 const app = express();
-app.set('view engine', 'ejs');
+app.set('view engine', 'ejs'); // use ejs as templating engine
 app.disable('etag');//disable 304
 
-app.use(logger('dev'));
+app.use(logger('dev')); // use morgan to create nice log outputs
 
 app.use(helmet());
 //app.use(redirectToHTTPS([/localhost:(\d{4})/,/0.0.0.0:(\d{4})/ ],[],301));
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/public')); //set the public folder
 
 
 app.use(bodyParser.json());
@@ -55,6 +55,7 @@ app.use(bodyParser.urlencoded({
     extended: false
 }));
 
+//Middleware for express to check the credentials of a user
 function auth(req, res, next) {
     // parse login and password from headers
     const authBase64 = req.headers.authorization;
@@ -92,7 +93,9 @@ function auth(req, res, next) {
 
 }
 
+//Middleware that checks if a user has admin rights
 const isAdmin = function (req, res, next) {
+    //checks if the loaded user from the auth Middleware has the admin flag
     if (req.record !== undefined && req.record.isAdmin) {
         next();
     } else {
@@ -102,18 +105,25 @@ const isAdmin = function (req, res, next) {
     }
 };
 
+//status request for debugging (without any authentication)
 app.get("/api/", (req, res)=>res.json({"status":"online"}));
+//routes for the user application (first authenticate the user and then proceed to the api functions)
 app.use("/api/", auth, require("./controller/api_routes"));
+//routes for the web application (first authenticates the user, then checks if the user has admin rights and then proceed to the admin functions)
 app.use("/", auth, isAdmin, require("./controller/authority_routes"));
 
+//for everything else send a error message
 app.use((req, res, next) => {
     res.status(404).send("Sorry can't find that!")
 });
+
+//if an error occurred send the error logs (for debugging)
 app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).send('Something broke!\n' + err.stack)
 });
 
+//start the server on the defined Port
 const server = app.listen(PORT, '0.0.0.0', () => {
     console.log(`Example app listening at http://${server.address().address}:${server.address().port}`)
 });

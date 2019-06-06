@@ -1,7 +1,17 @@
 const msgpack = require("msgpack-lite");
+const Permission = require("./Permission");
 
 class User {
 
+    /**
+     * Creates a user
+     * @param isAdmin boolean flag that indicates if the user can manage the system
+     * @param username of the user
+     * @param name of the user (full name)
+     * @param password for the user (hashed)
+     * @param permissions list of the user
+     * @param certificate  list of the user
+     */
     constructor(isAdmin, username, name, password, permissions, certificate) {
 
         this.isAdmin = isAdmin;
@@ -21,46 +31,15 @@ class User {
 
     }
 
+    //for debugging
     toString() {
         return JSON.stringify(this);
     }
 
-    renderPerm(p){
-
-        // check the variables received from the db
-        var img = p.imageUrl;
-        if (!/^data:image\/((jpeg)|(png));base64,[0-9a-zA-Z+\/=]*$/.test(img)) {
-            img = "img/imgNotFound.png";
-            console.log("wrong IMG given from db")
-        }
-
-        var name = p.name;
-        if(!/^[a-z ,.'-]+$/i.test(name)){
-            name = "Object";
-            console.log("wrong IMG given")
-        }
-        var desc = p.description;
-        if(!/^[a-z ,.'-]+$/i.test(desc)){
-            desc = "no description";
-            console.log("wrong IMG given from db")
-        }
-
-        var isdelagatable = p.loac.tokens[0].delegable?"delegatable":"";
-
-        return "<div class=\"card\">\n" +
-            "        <div class=\"img\" style=\"background-image: url("+img+");\"></div>\n" +
-            "        <div class=\"CardTitle\"><h1>"+name+"</h1><h2>"+desc+"   "+isdelagatable+"</h2></div>\n" +
-            "\n" +
-            "        <div class=\"CardDescription\">Validity: "+
-            new Date(p.loac.tokens[0].validityStart * 1000).toLocaleDateString()
-            +" - "+
-            new Date(p.loac.tokens[0].validityEnd * 1000).toLocaleDateString()
-            +"</div>\n" +
-            "    </div>"
-    }
-
+    //since we do not have a certificate class yet this class handel the rendering of the certificate
     renderCert(c){
         var data = msgpack.decode(new Buffer(c, "hex"));
+
 
         var username = data.s;
         if (!/^([\w0-9._]+)$/.test(username)) {
@@ -80,10 +59,10 @@ class User {
             "</div>"
     }
 
+    //We render de user information to display on the index site
     render() {
-
         let tokens = "";
-        this.permissions.forEach(p => tokens = tokens + this.renderPerm(p));
+        this.permissions.forEach(p => tokens = tokens + Permission.render(p));
         if(tokens === "") tokens = "<h3>No tokens found for this user</h3>";
 
         let cert = "";

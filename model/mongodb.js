@@ -22,7 +22,7 @@ mongoose.set('useFindAndModify', false);
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
-//create the schemas for the users and the resouces
+//create the schemas for the users and the resources
 const Schema = mongoose.Schema;
 const ResourceSchema = new Schema({
     name: String,

@@ -10,6 +10,8 @@ const async = require('async');
 const subject = new loac.Subject();
 const timeoutBetweenRequests = 2000;
 
+//some basic test
+//these test will not always succeed because the db is asynchronous
 describe("Api Test", (done) => {
 
     before((done) => {

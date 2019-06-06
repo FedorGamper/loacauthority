@@ -1,13 +1,23 @@
 const secret = require("../secret");
 class Resource {
-    constructor(name, loacName, descr, buttons, imageUrl){
+    /**
+     * Create a resource, this class is courently not really used but could be used in the future
+     * @param name of the resource (full name)
+     * @param loacName of the resource
+     * @param desc of the resource
+     * @param buttons that describes the access a user can preform on the resource
+     * @param imageUrl of the resource (base64 encoded)
+     */
+    constructor(name, loacName, desc, buttons, imageUrl){
         this.name = name;
         this.resourceName = loacName.toLowerCase();
-        this.description = descr;
+        this.description = desc;
         this.buttons = buttons;
         this.imageUrl = imageUrl;
 
     }
+
+    //generate the json config file for setting up a resource (currently not used)
     get createConfigFile(){
         let json = {
             uuid: {

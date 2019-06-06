@@ -1,5 +1,7 @@
 const router = require("express").Router();
 
+//creates a certificate for the user and return it to the user
+//the user pw and username were already checked
 router.post("/login", (req, res)=>{
     let request = req.body;
     let username = req.record.username;
@@ -21,7 +23,7 @@ router.post("/login", (req, res)=>{
     }
 });
 
-
+//returns the permission of a given user
 router.get("/permissions", (req, res)=>{
     res.json(req.record.permissions);
     });
